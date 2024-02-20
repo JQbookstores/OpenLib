@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI智能开朗问答</title>
+    <style>
+        body {
+            background-color: red
+            background-size: cover;
+            font-family: 'Microsoft Yahei', sans-serif; 
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        #dialog-box {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #8c564b;
+            border-radius: 10px;
+        }
+        #question {
+            margin-bottom: 20px;
+        }
+        #answer-input {
+            padding: 10px;
+            width: 80%;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dialog-box">
+        <div id="question"></div>
+        <input type="text" id="answer-input" placeholder="在这里开朗">
+        <button onclick="checkAnswer()">提交答案</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const questionsAndAnswers = [
+            { question: "阿根廷的首都是哪里？", answer: "布宜诺斯艾利斯" },
+            { question: "长江共流经了中国的多少个省份（包括自治区、直辖市）？", answer: "11个" },
+            { question: "“红楼梦”是谁写的？", answer: "曹雪芹" },
+            { question: "世界最高峰是哪座山？", answer: "珠穆朗玛峰" },
+            { question: "《三国演义》的作者是谁？", answer: "罗贯中" },
+            { question: "中国的四大发明包括哪些？", answer: "指南针、火药、印刷术、造纸术" },
+            { question: "敦煌莫高窟位于哪个省份？", answer: "甘肃" },
+            { question: "中国的国花是什么？", answer: "牡丹" },
+            { question: "“黄鹤楼”位于哪个城市？", answer: "武汉" },
+            { question: "成语“狐假虎威”出自哪个故事？", answer: "《战国策》" },
+            { question: "中国的第一部百科全书是什么？", answer: "《永乐大典》" },
+            { question: "“端午节”是为了纪念谁？", answer: "屈原" },
+            { question: "中国的国土面积在世界上排名第几？", answer: "第三" },
+            { question: "“长恨歌”是谁的诗？", answer: "白居易" },
+            { question: "中国的国家动物是什么？", answer: "大熊猫" },
+            { question: "yyh居住在哪个城市", answer: "北京" },
+            { question: "“红色中国”一般指的是什么地区？", answer: "陕甘宁边区" },
+            { question: "中国的国土面积有多大？", answer: "约960万平方公里" },
+            { question: "“庐山”位于哪个省份？", answer: "江西" },
+            { question: "中国的最长河流是什么？", answer: "长江" },
+        ];
+
+        let currentQuestionIndex = 0;
+        let timer;
+
+        function startTimer() {
+            timer = setTimeout(() => {
+                resetQuestion("对不起，经过我们的鉴定发现你不够开朗，请继续抓紧时间作答！");
+            }, 40000);
+        }
+
+        function resetTimer() {
+            clearTimeout(timer);
+            startTimer();
+        }
+
+        function resetQuestion(message) {
+            alert(message);
+            currentQuestionIndex = 0;
+            askQuestion();
+        }
+
+        function askQuestion() {
+            if (currentQuestionIndex < questionsAndAnswers.length) {
+                const randomIndex = Math.floor(Math.random() * questionsAndAnswers.length);
+                const randomQuestion = questionsAndAnswers[randomIndex].question;
+                const questionElement = document.getElementById("question");
+                questionElement.textContent = randomQuestion;
+                resetTimer();
+            } else {
+                alert("恭喜，题目已经答完！祝贺你获得“开朗小达人”称号，希望你在今后的yh家族中步步高升！");
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
+            const correctAnswer = questionsAndAnswers.find(qa => qa.question === document.getElementById("question").textContent).answer;
+
+            if (userAnswer === correctAnswer.toLowerCase()) {
+                document.getElementById("result").textContent = "Amazing！";
+                currentQuestionIndex++;
+                askQuestion();
+            } else {
+                document.getElementById("result").textContent = "Continue please";
+                resetTimer();
+            }
+        }
+
+        // 页面加载完成后开始问答
+        window.onload = askQuestion;
+    </script>
+</body>
+</html>
